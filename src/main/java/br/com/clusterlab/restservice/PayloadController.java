@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 public class PayloadController {
-    @PostMapping("/payload")
+        @PostMapping("/payload")
     public String payloadAction(@Valid @RequestBody PayloadAction payloadAction, HttpServletRequest request)
     {
         ObjectMapper mapper = new ObjectMapper();
