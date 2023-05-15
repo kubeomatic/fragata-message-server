@@ -1,0 +1,22 @@
+# @no-cookie-jar
+POST http://localhost:8080/payload
+Authorization: Basic jenkins 12345
+Content-Type: application/json
+
+< /home/rocko83/Projects/git/kubeomatic/fragata-action-server/template/payload.json
+
+###
+# @no-cookie-jar
+POST http://localhost:8080/payload
+Authorization: Basic fakeuser 12345
+Content-Type: application/json
+
+< /home/rocko83/Projects/git/kubeomatic/fragata-action-server/template/payload.json
+
+###
+# @no-cookie-jar
+POST http://localhost:8080/payload
+Authorization: Basic leitura 12345
+Content-Type: application/json
+
+< /home/rocko83/Projects/git/kubeomatic/fragata-action-server/template/payload.json

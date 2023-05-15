@@ -1,14 +1,20 @@
 package br.com.clusterlab.config;
 
+import br.com.clusterlab.dto.credential.Credential;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import java.security.SecureRandom;
 
 @Configuration
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
@@ -17,26 +23,29 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         var manager = new InMemoryUserDetailsManager();
-
-        var user1 = User.withUsername("john")
-                .password("12345")
-                .authorities("READ")
-                .build();
-
-        var user2 = User.withUsername("jane")
-                .password("12345")
-                .authorities("WRITE")
-                .build();
-
-        manager.createUser(user1);
-        manager.createUser(user2);
-
+        Credentials credentialsObj = null;
+        try {
+            for (Credential credential: Credentials.getCredentials(AppProperties.credentials))
+            {
+                var user = User.withUsername(credential.getUsername().toLowerCase())
+                        .password(credential.getPassword())
+                        .roles(credential.getRole().toUpperCase())
+                        .build();
+                manager.createUser(user);
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         return manager;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+//        return new BCryptPasswordEncoder(10, new SecureRandom());
+//        return new SCryptPasswordEncoder();
+        return new SCryptPasswordEncoder(16384, 8, 1, 32, 64);
+
+//        return NoOpPasswordEncoder.getInstance();
     }
 
     @Override
@@ -44,9 +53,11 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic();
         //http.authorizeRequests().anyRequest().hasAnyAuthority("WRITE", "READ");
         //http.authorizeRequests().anyRequest().hasAuthority("WRITE");
-        http.authorizeRequests().anyRequest().access("hasAuthority('WRITE')")
-                .and()
-                .csrf()
-                .ignoringAntMatchers("/payload");
+//        http.authorizeRequests().anyRequest().access("hasAuthority('WRITE')");
+//                .and()
+//                .csrf()
+//                .ignoringAntMatchers("/payload");
+        http.authorizeRequests().mvcMatchers("/payload").hasRole("ADMIN");
+        http.csrf().disable();
     }
 }
