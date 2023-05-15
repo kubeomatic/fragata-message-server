@@ -23,7 +23,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         var manager = new InMemoryUserDetailsManager();
-        Credentials credentialsObj = null;
+//        Credentials credentialsObj = null;
         try {
             for (Credential credential: Credentials.getCredentials(AppProperties.credentials))
             {
@@ -57,7 +57,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .csrf()
 //                .ignoringAntMatchers("/payload");
-        http.authorizeRequests().mvcMatchers("/payload").hasRole("ADMIN");
+        http.authorizeRequests().filterSecurityInterceptorOncePerRequest(false).mvcMatchers("/payload").hasRole("ADMIN");
         http.csrf().disable();
     }
 }
