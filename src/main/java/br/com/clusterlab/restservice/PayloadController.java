@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+//import javax.servlet.http.HttpServletRequest;
+//import javax.validation.Valid;
+import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class PayloadController {
@@ -31,7 +33,7 @@ public class PayloadController {
             String payback = message.SendRequest(payload);
             String ip = ClientInfo.getRequestIP(request);
             logger.info("Source IP= " + ip);
-//            System.out.println(ip);
+            System.out.println(ip);
             return payback;
         } catch (JsonProcessingException e)
         {
