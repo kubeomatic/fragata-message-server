@@ -1,23 +1,23 @@
 package br.com.clusterlab.config;
 
 import br.com.clusterlab.dto.credential.Credential;
+import br.com.clusterlab.service.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import java.security.SecureRandom;
-
 @Configuration
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
+    static Logger logger = LoggerFactory.getLogger(ProjectConfig.class);
 
     @Override
     @Bean
@@ -32,6 +32,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
                         .roles(credential.getRole().toUpperCase())
                         .build();
                 manager.createUser(user);
+                logger.info("Loadded user \"" + credential.getUsername() + "\" to UserDetailsService");
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

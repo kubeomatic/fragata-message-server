@@ -5,6 +5,8 @@ import br.com.clusterlab.service.ClientInfo;
 import br.com.clusterlab.service.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 public class PayloadController {
+    static Logger logger = LoggerFactory.getLogger(Message.class);
         @PostMapping("/payload")
     public String payloadAction(@Valid @RequestBody PayloadAction payloadAction, HttpServletRequest request)
     {
@@ -27,7 +30,8 @@ public class PayloadController {
             message.setServer_bind("tcp://localhost:5555");
             String payback = message.SendRequest(payload);
             String ip = ClientInfo.getRequestIP(request);
-            System.out.println(ip);
+            logger.info("Source IP= " + ip);
+//            System.out.println(ip);
             return payback;
         } catch (JsonProcessingException e)
         {
