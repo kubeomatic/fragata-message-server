@@ -9,12 +9,12 @@
         <version>2.6.6</version>
     </parent>
     <properties>
-        <maven.compiler.source>18</maven.compiler.source>
-        <maven.compiler.target>18</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <groupId>br.com.clusterlab</groupId>
-    <artifactId>message-server</artifactId>
+    <artifactId>fragata-message-server</artifactId>
     <version>1.0-SNAPSHOT</version>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
@@ -23,12 +23,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.7.5</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <version>2.7.5</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -36,6 +38,15 @@
             <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>2.7.5</version>
+        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -43,6 +54,7 @@
             <version>2.7.5</version>
             <scope>test</scope>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.zeromq/jeromq -->
         <dependency>
             <groupId>org.zeromq</groupId>
@@ -67,6 +79,17 @@
             <artifactId>spring-boot-starter-validation</artifactId>
             <version>2.7.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.69</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <version>3.3.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 
@@ -84,6 +107,49 @@
                     </excludes>
                 </configuration>
 
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <allowInsecureRegistries>true</allowInsecureRegistries>
+                    <from>
+                        <image>${env.BUILD_SRC_IMAGE}</image>
+                    </from>
+                    <to>
+                        <image>${env.BUILD_REGISTRY}/${env.BUILD_DST_IMAGE}</image>
+                        <tags>
+                            <tag>${env.BUILD_TAG}</tag>
+                            <tag>latest</tag>
+                        </tags>
+                        <auth>
+                            <username>${env.CR_USER}</username>
+                            <password>${env.CR_PASS}</password>
+                        </auth>
+
+                    </to>
+
+                    <container>
+                        <user>1000</user>
+                    </container>
+                    <!--                    <extraDirectories>-->
+                    <!--                        <paths>-->
+                    <!--                            <path>-->
+                    <!--                                <from>extra</from>-->
+                    <!--                                <into>/extra</into>-->
+                    <!--                            </path>-->
+                    <!--                        </paths>-->
+                    <!--                    </extraDirectories>-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
