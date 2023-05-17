@@ -4,10 +4,16 @@ package br.com.clusterlab.dto.action;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.annotation.processing.Generated;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Pattern;
+//import javax.validation.constraints.NotBlank;
+//import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.Null;
+//import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Pattern;
+
+
 import java.util.HashMap;
 import java.util.Map;
 

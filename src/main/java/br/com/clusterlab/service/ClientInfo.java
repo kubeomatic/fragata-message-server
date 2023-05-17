@@ -1,5 +1,6 @@
 package br.com.clusterlab.service;
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class ClientInfo {
     private static final String[] IP_HEADERS ={
