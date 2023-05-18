@@ -32,7 +32,7 @@ public class ProjectConfig {
                     UserDetails user = User
                             .withUsername(credential.getUsername().toLowerCase())
                             .username(credential.getUsername().toLowerCase())
-                            .password("{scrypt}" + credential.getPassword())
+                            .password(credential.getPassword())
                             .roles(credential.getRole().toUpperCase())
                             .build();
                     users.createUser(user);
