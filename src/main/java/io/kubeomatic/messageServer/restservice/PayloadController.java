@@ -1,8 +1,8 @@
-package br.com.clusterlab.restservice;
+package io.kubeomatic.messageServer.restservice;
 
-import br.com.clusterlab.dto.action.PayloadAction;
-import br.com.clusterlab.service.ClientInfo;
-import br.com.clusterlab.service.Message;
+import io.kubeomatic.messageServer.dto.action.PayloadAction;
+import io.kubeomatic.messageServer.service.ClientInfo;
+import io.kubeomatic.messageServer.service.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -36,13 +36,30 @@ public class PayloadController {
             UUID uuid = UUID.randomUUID();
             String ip = ClientInfo.getRequestIP(request);
             String payload = mapper.writeValueAsString(payloadAction);
-            logger.info("UUID="+ uuid + ". Username=" + username + ". SourceIp=" + ip + ". Payload=" + payload);
+            logger.info(
+                    "UUID="+ uuid +
+                        ", Username=" + username +
+                        ", SourceIp=" + ip +
+                        ", Action=" + payloadAction.getAction() +
+                        ", Environment=" + payloadAction.getEnvironment() +
+                        ", Provider_Kind=" + payloadAction.getProvider() + "/" + payloadAction.getKind()
+                    );
+
+            logger.debug(
+                    "UUID="+ uuid +
+                            ", Username=" + username +
+                            ", SourceIp=" + ip +
+                            ", Payload=" + payload
+            );
             Message message = new Message();
             message.setServer_bind("tcp://localhost:5555");
-            String payback = message.SendRequest(payload);
-            logger.info("UUID="+ uuid + ". Username=" + username + ". SourceIp=" + ip + ". Payload=" + payback);
+            String response = message.SendRequest(payload);
+            logger.debug("UUID="+ uuid +
+                    ", Username=" + username +
+                    ", SourceIp=" + ip +
+                    ", Response=" + response);
 
-            return payback;
+            return response;
         } catch (JsonProcessingException e)
         {
             e.printStackTrace();

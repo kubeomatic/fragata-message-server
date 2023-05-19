@@ -1,4 +1,4 @@
-package br.com.clusterlab.dto.action;
+package io.kubeomatic.messageServer.dto.action;
 
 
 import com.fasterxml.jackson.annotation.*;

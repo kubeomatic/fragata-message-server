@@ -1,4 +1,4 @@
-package br.com.clusterlab.dto.credential;
+package io.kubeomatic.messageServer.dto.credential;
 
 
 import com.fasterxml.jackson.annotation.*;

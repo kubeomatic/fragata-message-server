@@ -1,6 +1,6 @@
-package br.com.clusterlab.config;
+package io.kubeomatic.messageServer.config;
 
-import br.com.clusterlab.dto.credential.Credential;
+import io.kubeomatic.messageServer.dto.credential.Credential;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

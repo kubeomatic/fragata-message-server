@@ -1,4 +1,4 @@
-package br.com.clusterlab.service;
+package io.kubeomatic.messageServer.service;
 //import javax.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 

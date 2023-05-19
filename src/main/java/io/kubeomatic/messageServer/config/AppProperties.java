@@ -1,4 +1,4 @@
-package br.com.clusterlab.config;
+package io.kubeomatic.messageServer.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

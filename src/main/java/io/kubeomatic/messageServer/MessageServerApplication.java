@@ -1,4 +1,4 @@
-package br.com.clusterlab;
+package io.kubeomatic.messageServer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
