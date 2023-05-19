@@ -14,14 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-//import javax.servlet.http.HttpServletRequest;
-//import javax.validation.Valid;
 import jakarta.validation.Valid;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.UUID;
-
-//import static org.hibernate.validator.constraints.UUID.*;
 
 @RestController
 public class PayloadController {
@@ -43,7 +39,7 @@ public class PayloadController {
                         ", Action=" + payloadAction.getAction() +
                         ", Environment=" + payloadAction.getEnvironment() +
                         ", Provider_Kind=" + payloadAction.getProvider() + "/" + payloadAction.getKind()
-                    );
+            );
 
             logger.debug(
                     "UUID="+ uuid +
@@ -54,10 +50,12 @@ public class PayloadController {
             Message message = new Message();
             message.setServer_bind("tcp://localhost:5555");
             String response = message.SendRequest(payload);
-            logger.debug("UUID="+ uuid +
-                    ", Username=" + username +
-                    ", SourceIp=" + ip +
-                    ", Response=" + response);
+            logger.debug(
+                    "UUID="+ uuid +
+                        ", Username=" + username +
+                        ", SourceIp=" + ip +
+                        ", Response=" + response
+            );
 
             return response;
         } catch (JsonProcessingException e)
