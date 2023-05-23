@@ -11,15 +11,14 @@ message:
     server.tomcat.accesslog.enabled=false
     server.tomcat.max-connections=8192
     server.tomcat.max-swallow-size=2MB
+
+  secret: |-
     io.kubeomatic.fragata.credentials=
-app:
-  config: |-
-    a=b
 common:
   name: "fragata-test"
   nameSpace: "fragata"
 #  "registry.hub.docker.com/"
-  messageServerImage: "registry.hub.docker.com/kubeomatic/fragata-message-server"
+  messageServerImage: "registry.hub.docker.com/kubeomatic/fragata-message-server:0.24"
   appServerImage: "registry.hub.docker.com/kubeomatic/fragata-action-server-sample:0.0.3"
   labels: {
     "environment":"dev"

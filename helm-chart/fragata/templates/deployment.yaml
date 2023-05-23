@@ -50,8 +50,6 @@ spec:
           volumeMounts:
             - name: tmpfs-tmp
               mountPath: /tmp
-            - name: app-properties
-              mountPath: /app/resources
           ports:
             - containerPort: 5555
               name: zeromq
@@ -85,8 +83,11 @@ spec:
             - name: tmpfs-tmp
               mountPath: /tmp
             - name: app-properties
-              mountPath: app/resources/application.properties
+              mountPath: /app/resources/application.properties
               subPath: application.properties
+            - name: secret-properties
+              mountPath: /app/resources/secret.properties
+              subPath: secret.properties
           ports:
             - containerPort: 8080
               name: message
@@ -96,3 +97,7 @@ spec:
         - name: app-properties
           configMap:
             name: {{ .Values.common.name }}
+        - name: secret-properties
+          secret:
+            secretName: {{ .Values.common.name }}
+            optional: false
