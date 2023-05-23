@@ -1,0 +1,30 @@
+message:
+  config: |-
+    server.port=8080
+    logging.level.org.springframework.web=info
+    spring.mvc.log-request-details=false
+    logging.level.root=info
+    server.max-http-request-header-size=40KB
+    server.tomcat.max-http-form-post-size=2MB
+    server.tomcat.threads.max=200
+    server.tomcat.accept-count=100
+    server.tomcat.accesslog.enabled=false
+    server.tomcat.max-connections=8192
+    server.tomcat.max-swallow-size=2MB
+    io.kubeomatic.fragata.credentials=
+app:
+  config: |-
+    a=b
+secret:
+  keyStore: ""
+  keyStorePAss: ""
+common:
+  name: "fragata-test"
+  nameSpace: "fragata"
+#  "registry.hub.docker.com/"
+  messageServerImage: "kubeomatic/fragata-message-server"
+  appServerImage: "kubeomatic/fragata-action-server-sample:0.0.3"
+  labels: {}
+  environment: "dev"
+  spec:
+    replicas: 1
