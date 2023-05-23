@@ -15,16 +15,20 @@ message:
 app:
   config: |-
     a=b
-secret:
-  keyStore: ""
-  keyStorePAss: ""
 common:
   name: "fragata-test"
   nameSpace: "fragata"
 #  "registry.hub.docker.com/"
-  messageServerImage: "kubeomatic/fragata-message-server"
-  appServerImage: "kubeomatic/fragata-action-server-sample:0.0.3"
-  labels: {}
-  environment: "dev"
+  messageServerImage: "registry.hub.docker.com/kubeomatic/fragata-message-server"
+  appServerImage: "registry.hub.docker.com/kubeomatic/fragata-action-server-sample:0.0.3"
+  labels: {
+    "environment":"dev"
+  }
+  environment: {
+    "environment":"dev"
+  }
+  secrets: {
+     "secret_name":"secret_value"
+  }
   spec:
     replicas: 1

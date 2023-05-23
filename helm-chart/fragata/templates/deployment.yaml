@@ -1,3 +1,4 @@
+{{- $name := .Values.common.name -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,6 +24,21 @@ spec:
         - image: {{ .Values.common.appServerImage }}
           name: {{ .Values.common.name }}-appserver
           env:
+            {{- if .Values.common.environment}}
+            {{- range $key, $val := .Values.common.environment }}
+            - name: {{ $key }}
+              value: {{ $val }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.common.secrets}}
+            {{- range $key, $val := .Values.common.secrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $name }}
+                  key: {{ $key }}
+            {{- end }}
+            {{- end }}
           securityContext:
             seccompProfile:
               type: RuntimeDefault
@@ -41,6 +57,22 @@ spec:
               name: zeromq
         - image: {{ .Values.common.messageServerImage }}
           name: {{ .Values.common.name }}-messageserver
+          env:
+            {{- if .Values.common.environment}}
+            {{- range $key, $val := .Values.common.environment }}
+            - name: {{ $key }}
+              value: {{ $val }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.common.secrets}}
+            {{- range $key, $val := .Values.common.secrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $name }}
+                  key: {{ $key }}
+            {{- end }}
+            {{- end }}
           securityContext:
             seccompProfile:
               type: RuntimeDefault
