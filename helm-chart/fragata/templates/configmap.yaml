@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  namespace: {{ .Release.Name }}
+  name: {{ .Values.common.name }}
+data:
+  application.properties: |-
+    {{- .Values.message.config | nindent 4}}

@@ -1,0 +1,103 @@
+{{- $name := .Values.common.name -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.common.name }}
+  namespace: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.common.spec.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.common.name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Values.common.name }}
+      {{- if .Values.common.labels}}
+      {{- with .Values.common.labels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- end }}
+    spec:
+{{/*      serviceAccountName: {{ .Values.common.name }}-sa*/}}
+      containers:
+        - image: {{ .Values.common.appServerImage }}
+          name: {{ .Values.common.name }}-appserver
+          env:
+            {{- if .Values.common.environment}}
+            {{- range $key, $val := .Values.common.environment }}
+            - name: {{ $key }}
+              value: {{ $val }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.common.secrets}}
+            {{- range $key, $val := .Values.common.secrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $name }}
+                  key: {{ $key }}
+            {{- end }}
+            {{- end }}
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 2000
+            readOnlyRootFilesystem: true
+            privileged: false
+          volumeMounts:
+            - name: tmpfs-tmp
+              mountPath: /tmp
+          ports:
+            - containerPort: 5555
+              name: zeromq
+        - image: {{ .Values.common.messageServerImage }}
+          name: {{ .Values.common.name }}-messageserver
+          env:
+            {{- if .Values.common.environment}}
+            {{- range $key, $val := .Values.common.environment }}
+            - name: {{ $key }}
+              value: {{ $val }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.common.secrets}}
+            {{- range $key, $val := .Values.common.secrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $name }}
+                  key: {{ $key }}
+            {{- end }}
+            {{- end }}
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 2000
+            readOnlyRootFilesystem: true
+            privileged: false
+          volumeMounts:
+            - name: tmpfs-tmp
+              mountPath: /tmp
+            - name: app-properties
+              mountPath: /app/resources/application.properties
+              subPath: application.properties
+            - name: secret-properties
+              mountPath: /app/resources/secret.properties
+              subPath: secret.properties
+          ports:
+            - containerPort: 8080
+              name: message
+      volumes:
+        - name: tmpfs-tmp
+          emptyDir: {}
+        - name: app-properties
+          configMap:
+            name: {{ .Values.common.name }}
+        - name: secret-properties
+          secret:
+            secretName: {{ .Values.common.name }}
+            optional: false

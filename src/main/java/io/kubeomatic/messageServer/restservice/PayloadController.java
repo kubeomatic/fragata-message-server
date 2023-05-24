@@ -30,6 +30,7 @@ public class PayloadController {
         {
             String username = authentication.getName();
             UUID uuid = UUID.randomUUID();
+            payloadAction.setUuid(uuid.toString());
             String ip = ClientInfo.getRequestIP(request);
             String payload = mapper.writeValueAsString(payloadAction);
             logger.info(

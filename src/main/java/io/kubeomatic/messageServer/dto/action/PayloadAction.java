@@ -19,6 +19,7 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+        "uuid",
         "job_id",
         "provider",
         "kind",
@@ -35,9 +36,13 @@ import java.util.Map;
 @Generated("jsonschema2pojo")
 public class PayloadAction {
 
+    @Null
+    @JsonProperty("uuid")
+    private String uuid;
     @NotBlank(message = "job_id is required")
     @JsonProperty("job_id")
     private String jobId;
+
 
     @NotBlank(message = "provider is required")
     @JsonProperty("provider")
@@ -82,6 +87,16 @@ public class PayloadAction {
     private ProviderData providerData;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonProperty("uuid")
+    public String getUuid() {
+        return uuid;
+    }
+
+    @JsonProperty("uuid")
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     @JsonProperty("job_id")
     public String getJobId() {
