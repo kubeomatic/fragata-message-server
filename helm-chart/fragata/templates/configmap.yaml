@@ -6,3 +6,5 @@ metadata:
 data:
   application.properties: |-
     {{- .Values.message.config | nindent 4}}
+  {{ .Values.action.fileName }}: |-
+    {{- .Values.action.config | nindent 4}}

@@ -11,9 +11,18 @@ message:
     server.tomcat.accesslog.enabled=false
     server.tomcat.max-connections=8192
     server.tomcat.max-swallow-size=2MB
-
   secret: |-
     io.kubeomatic.fragata.credentials=
+action:
+  fileName: "settings.json"
+  filePath: "/app"
+  config: |-
+    {
+      "log": {
+        "verbosity": "info"
+      },
+      "test": "value"
+    }
 common:
   name: "fragata-test"
   nameSpace: "fragata"
@@ -24,7 +33,8 @@ common:
     "environment":"dev"
   }
   environment: {
-    "environment":"dev"
+    "environment":"dev",
+    "ACTION_SETTINGS_PATH":"/app/settings.json"
   }
   secrets: {
      "secret_name":"secret_value"

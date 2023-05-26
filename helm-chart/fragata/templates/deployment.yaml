@@ -50,6 +50,9 @@ spec:
           volumeMounts:
             - name: tmpfs-tmp
               mountPath: /tmp
+            - name: app-properties
+              mountPath: {{ .Values.action.filePath }}/{{ .Values.action.fileName }}
+              subPath: {{ .Values.action.fileName }}
           ports:
             - containerPort: 5555
               name: zeromq
