@@ -4,10 +4,6 @@ package io.kubeomatic.messageServer.dto.action;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.annotation.processing.Generated;
-//import javax.validation.constraints.NotBlank;
-//import javax.validation.constraints.NotNull;
-//import javax.validation.constraints.Null;
-//import javax.validation.constraints.Pattern;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -27,7 +23,7 @@ import java.util.Map;
         "wait",
         "break_on_error",
         "action",
-        "executor",
+        "owner",
         "description",
         "resource_data",
         "provider_data",
@@ -66,9 +62,9 @@ public class PayloadAction {
     @JsonProperty("action")
     private String action;
 
-    @NotBlank(message = "executor is required")
-    @JsonProperty("executor")
-    private String executor;
+    @NotBlank(message = "owner is required")
+    @JsonProperty("owner")
+    private String owner;
 
     @NotBlank(message = "description is required")
     @JsonProperty("description")
@@ -168,14 +164,14 @@ public class PayloadAction {
         this.action = action;
     }
 
-    @JsonProperty("executor")
-    public String getExecutor() {
-        return executor;
+    @JsonProperty("owner")
+    public String getOwner() {
+        return owner;
     }
 
-    @JsonProperty("executor")
-    public void setExecutor(String executor) {
-        this.executor = executor;
+    @JsonProperty("owner")
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     @JsonProperty("description")

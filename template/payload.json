@@ -1,0 +1,18 @@
+{
+  "uuid": "",
+  "job_id": "abc",
+  "provider": "azure",
+  "kind": "redis",
+  "environment": "dev",
+  "wait": true,
+  "break_on_error": true,
+  "action": "create",
+  "owner": "user.name",
+  "description": "blabla",
+  "resource_data": {
+    "teste": "value"
+  },
+  "provider_data": {
+    "teste": "value"
+  }
+}
