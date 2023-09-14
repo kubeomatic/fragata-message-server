@@ -1,9 +1,9 @@
 # @no-cookie-jar
 POST http://localhost:8080/payload
-Authorization: Basic jenkins 12345
+Authorization: Basic damato 123mudar
 Content-Type: application/json
 
-< /home/rocko83/Projects/git/kubeomatic/fragata-action-server/template/payload.json
+< /home/rocko83/Projetos/git/kubeomatic/fragata-action-server/template/payload.json
 
 ###
 # @no-cookie-jar
